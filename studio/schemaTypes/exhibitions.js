@@ -7,8 +7,8 @@ export default {
     { name: 'title', title: 'Title', type: 'string' },
     { name: 'slug', title: 'Slug', type: 'slug', options: { source: 'title', maxLength: 96 } },
     { name: 'artist', title: 'Artist', type: 'reference', to: [{ type: 'artist' }] },
-    { name: 'startDate', title: 'Start Date', type: 'date' },
-    { name: 'endDate', title: 'End Date', type: 'date' },
+    { name: 'start', title: 'Start Date', type: 'date' },   // 👈 fixed
+    { name: 'end', title: 'End Date', type: 'date' },       // 👈 fixed
     { name: 'location', title: 'Location', type: 'string' },
     {
       name: 'images',

@@ -1,42 +1,50 @@
-// Homepage.jsx
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { client } from '../lib/client';
+import { getHomepage } from '../lib/queries';
 import Header from '../components/Header';
 import Nav from '../components/Navbar';
-import dickImg from '../assets/images/dick-homepage.jpeg';
-import dickImg2 from '../assets/images/dick2.jpeg';
-import dickImg3 from '../assets/images/dick3.jpeg';
-
-const images = [
-  { id: 1, src: dickImg, title: 'Dick Jewell', slug: 'dick-jewell' },
-  { id: 2, src: dickImg2, title: 'Shop Launch', slug: 'shop-launch' },
-  { id: 3, src: dickImg3, title: 'Harley Weir', slug: 'harley-weir' },
-];
 
 export default function Homepage() {
+  const [slides, setSlides] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [hovered, setHovered] = useState(null);
   const navigate = useNavigate();
 
+  // Fetch homepage data from Sanity
+  useEffect(() => {
+    client.fetch(getHomepage).then((data) => {
+      setSlides(data?.slides || []);
+    });
+  }, []);
+
   const handlePrev = () => {
-    setCurrentIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+    setCurrentIndex((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
   };
 
   const handleNext = () => {
-    setCurrentIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
+    setCurrentIndex((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
   };
 
   const handleTitleClick = () => {
-    navigate(`/exhibitions?expand=${images[currentIndex].slug}`);
+    const slug = slides[currentIndex]?.slug;
+    if (slug) navigate(`/exhibitions?expand=${slug}`);
   };
 
   const hoverOffset =
     hovered === 'next' ? -0.05 :
     hovered === 'prev' ? 0.05 : 0;
 
+  if (slides.length === 0) {
+    return <div className="h-screen flex justify-center items-center">Loading...</div>;
+  }
+
+  const currentSlide = slides[currentIndex];
+  const themeColor = currentSlide.themeColor || '#000';
+
   return (
     <div className="relative h-screen w-screen overflow-hidden">
-      {/* Image container */}
+      {/* Background Image Carousel */}
       <div className="absolute inset-0 overflow-hidden">
         <div
           className="flex transition-transform duration-700 ease-in-out h-full"
@@ -44,9 +52,13 @@ export default function Homepage() {
             transform: `translateX(calc(-${currentIndex * 100}% + ${hoverOffset * 100}%))`,
           }}
         >
-          {images.map((img) => (
-            <div key={img.id} className="w-screen h-screen flex-shrink-0">
-              <img src={img.src} alt={img.title} className="w-full h-full object-cover" />
+          {slides.map((slide, idx) => (
+            <div key={idx} className="w-screen h-screen flex-shrink-0">
+              <img
+                src={slide.image.asset.url}
+                alt={slide.title}
+                className="w-full h-full object-cover"
+              />
             </div>
           ))}
         </div>
@@ -55,17 +67,18 @@ export default function Homepage() {
       {/* Overlay UI */}
       <div className="absolute inset-0 flex flex-col justify-between z-10">
         <div className="flex flex-col items-center pt-8">
-          <Header />
+          <Header color={themeColor} />
           <div className="md:hidden mt-4">
-            <Nav />
+            <Nav color={themeColor} />
           </div>
         </div>
 
-        {/* Center Title */}
+        {/* Center CTA and Title */}
         <button
           onClick={handleTitleClick}
-          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-black text-center"
+          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center"
           style={{
+            color: themeColor,
             width: '385px',
             height: '96px',
             fontSize: '32px',
@@ -75,20 +88,22 @@ export default function Homepage() {
             textTransform: 'capitalize',
           }}
         >
-          Opening Exhibition:<br />
-          {images[currentIndex].title}
+          {currentSlide.ctaLabel}<br />
+          {currentSlide.title}
         </button>
 
         <div className="hidden md:flex justify-center pb-8">
-          <Nav />
+          <Nav color={themeColor} />
         </div>
       </div>
 
+      {/* Navigation Arrows */}
       <button
         onClick={handlePrev}
         onMouseEnter={() => setHovered('prev')}
         onMouseLeave={() => setHovered(null)}
-        className="absolute left-4 top-1/2 -translate-y-1/2 text-3xl text-black z-20"
+        className="absolute left-4 top-1/2 -translate-y-1/2 text-3xl z-20"
+        style={{ color: themeColor }}
         aria-label="Previous"
       >
         &larr;
@@ -97,7 +112,8 @@ export default function Homepage() {
         onClick={handleNext}
         onMouseEnter={() => setHovered('next')}
         onMouseLeave={() => setHovered(null)}
-        className="absolute right-4 top-1/2 -translate-y-1/2 text-3xl text-black z-20"
+        className="absolute right-4 top-1/2 -translate-y-1/2 text-3xl z-20"
+        style={{ color: themeColor }}
         aria-label="Next"
       >
         &rarr;

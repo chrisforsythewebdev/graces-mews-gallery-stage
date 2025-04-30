@@ -1,25 +1,12 @@
 import { NavLink, useLocation } from 'react-router-dom';
 
-export default function Nav() {
+export default function Nav({ color = '#000000' }) {
   const { pathname } = useLocation();
   const activeStyle = 'underline';
 
   const isHome = pathname === '/';
 
   const links = [
-    // {
-    //   to: '/exhibitions',
-    //   label: 'EXHIBITIONS',
-    //   match: (path) => path === '/exhibitions' || path.startsWith('/artist'),
-    //   hideOnHome: true,
-    //   external: false,
-    // },
-    // {
-    //   to: '/news',
-    //   label: 'NEWS',
-    //   hideOnHome: true,
-    //   external: false,
-    // },
     {
       to: '/info',
       label: 'INFO',
@@ -28,7 +15,10 @@ export default function Nav() {
   ];
 
   return (
-    <nav className="space-x-4 md:space-x-8 text-2xl font-bold md:mb-8">
+    <nav
+      className="space-x-4 md:space-x-8 text-2xl font-bold md:mb-8"
+      style={{ color }}
+    >
       {links.map(({ to, label, match, hideOnHome, external }) => {
         if (isHome && hideOnHome) return null;
 
@@ -54,6 +44,7 @@ export default function Nav() {
               (isActive || (match && match(pathname)) ? activeStyle : '') +
               ' transition-transform duration-300 md:hover:scale-110 inline-block'
             }
+            style={{ color }}
           >
             {label}
           </NavLink>

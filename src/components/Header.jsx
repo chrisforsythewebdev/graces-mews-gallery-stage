@@ -1,9 +1,12 @@
 import { NavLink } from 'react-router-dom';
 
-export default function Header() {
+export default function Header({ color = '#000000' }) {
   return (    
-    <NavLink to={'/'}>
-      <h1 className="text-5xl md:text-6xl tracking-[0.2em] md:tracking-[0.3em] font-bold text-center">
+    <NavLink to="/">
+      <h1
+        className="text-5xl md:text-7xl tracking-[0.2em] md:tracking-[0.3em] font-bold text-center"
+        style={{ color }}
+      >
         GRACES MEWS
       </h1>
     </NavLink>

@@ -44,4 +44,20 @@ export const getExhibitions = `
   }
 `;
 
+export const getHomepage = `
+  *[_type == "homepage"][0] {
+    slides[] {
+      image {
+        asset->{
+          url
+        }
+      },
+      title,
+      themeColor,
+      ctaLabel,
+      "slug": slug.current
+    }
+  }
+`;
+
 
