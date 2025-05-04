@@ -48,12 +48,12 @@ export default function ArtistDetails() {
 
           <div className="flex gap-2 justify-start mt-2">
             <button
-              onClick={() => topScrollRef.current?.scrollBy({ left: -300, behavior: 'smooth' })}
+              onClick={() => topScrollRef.current?.scrollBy({ left: -300, behavior: 'smooth' })} className='text-xl hover:text-[#AAAAAA] hover:scale-110'
             >
               ←
             </button>
             <button
-              onClick={() => topScrollRef.current?.scrollBy({ left: 300, behavior: 'smooth' })}
+              onClick={() => topScrollRef.current?.scrollBy({ left: 300, behavior: 'smooth' })} className='text-xl hover:text-[#AAAAAA] hover:scale-110'
             >
               →
             </button>
@@ -81,12 +81,12 @@ export default function ArtistDetails() {
           </div>
           <div className="flex gap-2 mt-2 justify-start">
             <button
-              onClick={() => portfolioRef.current?.scrollBy({ left: -300, behavior: 'smooth' })}
+              onClick={() => portfolioRef.current?.scrollBy({ left: -300, behavior: 'smooth' })} className='text-xl hover:text-[#AAAAAA] hover:scale-110'
             >
               ←
             </button>
             <button
-              onClick={() => portfolioRef.current?.scrollBy({ left: 300, behavior: 'smooth' })}
+              onClick={() => portfolioRef.current?.scrollBy({ left: 300, behavior: 'smooth' })} className='text-xl hover:text-[#AAAAAA] hover:scale-110'
             >
               →
             </button>

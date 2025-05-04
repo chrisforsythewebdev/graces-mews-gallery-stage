@@ -60,4 +60,46 @@ export const getHomepage = `
   }
 `;
 
+export const getNews = `
+  *[_type == "news"] | order(fullDate desc) {
+    _id,
+    title,
+    "slug": slug.current,
+    number,
+    shortDate,
+    fullDate,
+    year,
+    video,
+    videoDescription,
+    buyText,
+    buyLink,
+    "thumbnail": thumbnail.asset->url,
+    "gallery": gallery[].asset->url,
+    descriptionTop,
+    descriptionBottom
+  }
+`;
+
+export const getNewsItemBySlug = (slug) => `
+  *[_type == "news" && slug.current == "${slug}"][0] {
+    _id,
+    title,
+    number,
+    shortDate,
+    fullDate,
+    year,
+    video,
+    videoDescription,
+    buyText,
+    buyLink,
+    "thumbnail": thumbnail.asset->url,
+    "gallery": gallery[].asset->url,
+    descriptionTop,
+    descriptionBottom
+  }
+`;
+
+
+ 
+
 
