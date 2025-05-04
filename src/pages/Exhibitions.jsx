@@ -150,7 +150,7 @@ export default function Exhibitions() {
               transition={{ duration: 0.4, ease: 'easeInOut' }}
               className="overflow-hidden mt-4"
             >
-              <div className="space-y-4 pt-4">
+              <div className="space-y-4 md:pt-4">
                 {/* Carousel (desktop only) */}
                 <div className="hidden md:flex flex-col items-center w-full space-y-2">
                   <div
@@ -187,15 +187,6 @@ export default function Exhibitions() {
                   <p className="text-sm md:text-base max-w-3xl">{item.description}</p>
                 )}
   
-                {/* Collapse Arrow */}
-                <div className="pt-4">
-                  <button
-                    onClick={() => setIsExpanded(false)}
-                    className="text-xl hover:text-[#AAAAAA] hover:scale-110"
-                  >
-                    ↑
-                  </button>
-                </div>
               </div>
             </motion.div>
           )}
