@@ -88,13 +88,13 @@ export default function NewsDetail() {
           <div className="absolute bottom-0 left-0 flex gap-2">
             <button
               onClick={() => carouselRef.current?.scrollBy({ left: -300, behavior: 'smooth' })}
-              className="text-2xl"
+              className="text-2xl hover:text-[#AAAAAA] hover:scale-110"
             >
               ←
             </button>
             <button
               onClick={() => carouselRef.current?.scrollBy({ left: 300, behavior: 'smooth' })}
-              className="text-2xl"
+              className="text-2xl hover:text-[#AAAAAA] hover:scale-110"
             >
               →
             </button>
