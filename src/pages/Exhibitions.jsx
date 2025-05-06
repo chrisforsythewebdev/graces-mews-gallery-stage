@@ -48,6 +48,32 @@ export default function Exhibitions() {
     }
   }, [location.search, exhibitions]);
 
+  const formatDateRange = (start, end) => {
+    const startDate = new Date(start);
+    const endDate = new Date(end);
+  
+    const sameYear = startDate.getFullYear() === endDate.getFullYear();
+  
+    const startFormatted = startDate.toLocaleDateString('en-GB', {
+      day: 'numeric',
+      month: 'short',
+    });
+  
+    const endFormatted = endDate.toLocaleDateString('en-GB', {
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric',
+    });
+  
+    return sameYear
+      ? `${startFormatted} – ${endFormatted}`
+      : `${startDate.toLocaleDateString('en-GB', {
+          day: 'numeric',
+          month: 'short',
+          year: 'numeric',
+        })} – ${endFormatted}`;
+  };
+  
   
   function ExhibitionRow({ item, expandOnLoad = false }) {
     const [isExpanded, setIsExpanded] = useState(expandOnLoad);
@@ -79,10 +105,10 @@ export default function Exhibitions() {
           className="hidden md:grid grid-cols-[1fr_1fr_1fr_1fr_144px] gap-4 text-lg items-start group"
         >
           <div className="flex flex-col justify-between h-full relative">
-            <p className="font-semibold">{start} – {end}</p>
+            <p className="font-semibold">{formatDateRange(item.start, item.end)}</p>
             <button
               onClick={() => setIsExpanded(prev => !prev)}
-              className={`absolute bottom-0 left-0 text-xl transition-all duration-300 hover:text-[#AAAAAA] hover:scale-110
+              className={`absolute bottom-0 left-0 text-xl transition-all duration-700 hover:text-[#AAAAAA] hover:scale-150
                 ${isExpanded ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0'}
               `}
             >
@@ -92,7 +118,8 @@ export default function Exhibitions() {
           <p className="font-semibold">
             <Link
               to={`/artist/${item.artist?.slug}`}
-              className="underline text-[#000] hover:text-[#AAAAAA]"
+              className={`${isExpanded ? 'underline' : ''} text-[#000] hover:text-[#AAAAAA]`}
+
               onClick={(e) => e.stopPropagation()}
             >
               {item.artist?.name}
@@ -120,15 +147,15 @@ export default function Exhibitions() {
   
         {/* Mobile Header */}
         <div className="md:hidden flex flex-col space-y-1" onClick={() => setIsExpanded(prev => !prev)}>
-          <p className="text-md font-semibold">{start} – {end}</p>
+          <p className="text-lg font-semibold leading-tight">{start} – {end}</p>
           {item.images?.[0]?.asset?.url && (
             <img src={item.images[0].asset.url} alt={item.title} className="w-full h-[220px] object-cover my-2" />
           )}
-          <div className="flex justify-between text-md font-bold uppercase">
+          <div className="flex justify-between text-lg font-bold uppercase leading-tight tracking-tight">
             <p>{item.title}</p>
             <p>{item.location}</p>
           </div>
-          <p className="text-md font-semibold">
+          <p className="text-lg font-semibold leading-tight tracking-tight">
             <Link
               to={`/artist/${item.artist?.slug}`}
               className="hover:text-[#AAAAAA]"
@@ -150,7 +177,7 @@ export default function Exhibitions() {
               transition={{ duration: 0.4, ease: 'easeInOut' }}
               className="overflow-hidden mt-4"
             >
-              <div className="space-y-4 md:pt-4">
+              <div className="space-y-4">
                 {/* Carousel (desktop only) */}
                 <div className="hidden md:flex flex-col items-center w-full space-y-2">
                   <div
@@ -169,13 +196,13 @@ export default function Exhibitions() {
                   <div className="w-full mt-2 flex justify-start space-x-2">
                     <button
                       onClick={() => carouselRef.current?.scrollBy({ left: -600, behavior: 'smooth' })}
-                      className="text-xl hover:text-[#AAAAAA] hover:scale-110"
+                      className="text-xl hover:text-[#AAAAAA] hover:scale-125"
                     >
                       ←
                     </button>
                     <button
                       onClick={() => carouselRef.current?.scrollBy({ left: 600, behavior: 'smooth' })}
-                      className="text-xl hover:text-[#AAAAAA] hover:scale-110"
+                      className="text-xl hover:text-[#AAAAAA] hover:scale-125"
                     >
                       →
                     </button>
@@ -184,7 +211,7 @@ export default function Exhibitions() {
   
                 {/* Description */}
                 {item.description && (
-                  <p className="text-sm md:text-base max-w-3xl">{item.description}</p>
+                  <p className="text-md md:text-lg max-w-3xl tracking-tight">{item.description}</p>
                 )}
   
               </div>
@@ -210,16 +237,26 @@ export default function Exhibitions() {
               <div className={`border-b border-black ${section === 'past' ? 'opacity-50 mb-2' : ''}`} />
   
               {section === 'past' ? (
-                exhibitions.past.map((item) => (
-                  <div
-                    key={item._id}
-                    className="opacity-30 py-2 text-lg flex flex-col md:flex-row md:justify-between md:items-start"
-                  >
-                    <p className="font-semibold mb-0 md:w-1/4">
-                      {item.start && new Date(item.start).toLocaleDateString('en-GB')} – {item.end && new Date(item.end).toLocaleDateString('en-GB')}
-                    </p>
-                    <p className="font-semibold mb-0 md:w-1/4">{item.artist?.name}</p>
-                    <p className="uppercase md:w-1/2">{item.title}</p>
+                exhibitions.past.map((item, i) => (
+                  <div key={item._id} id={`exhibition-past-${i}`} className="border-b border-black py-4">
+  
+                    {/* Desktop Layout */}
+                    <div className="hidden md:grid grid-cols-[1fr_1fr_1fr_1fr_144px] gap-4 text-lg items-start opacity-30">
+                      <p className="font-semibold">{formatDateRange(item.start, item.end)}</p>
+                      <p className="font-semibold">{item.artist?.name}</p>
+                      <p className="font-semibold uppercase">{item.title}</p>
+                      <div className="w-36 h-24" />
+                    </div>
+  
+                    {/* Mobile Layout */}
+                    <div className="md:hidden flex flex-col space-y-1 opacity-30">
+                      <p className="text-lg font-semibold leading-tight">{formatDateRange(item.start, item.end)}</p>
+                      <p className="text-lg font-semibold leading-tight">{item.artist?.name}</p>
+                      <div className="flex justify-between text-lg font-bold uppercase leading-tight">
+                        <p>{item.title}</p>
+                      </div>
+                    </div>
+  
                   </div>
                 ))
               ) : (
@@ -240,5 +277,4 @@ export default function Exhibitions() {
       </div>
     </Layout>
   );
-  
 }

@@ -6,7 +6,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        tabletGothic: ['"Tablet Gothic Condensed"', 'sans-serif'],
+        gracesmews: ['GRACESMEWS', 'sans-serif'],
       },
       animation: {
         slowspin: 'slowspin 8s linear infinite',

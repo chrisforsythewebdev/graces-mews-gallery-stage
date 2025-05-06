@@ -32,7 +32,7 @@ export default function ArtistDetails() {
             {artist.topImages?.map((img, i) => (
               <div
                 key={i}
-                className="min-w-[250px] max-w-[250px] flex-shrink-0 snap-start flex flex-col items-start"
+                className="w-screen flex-shrink-0 snap-start flex flex-col items-start md:min-w-[250px] md:max-w-[250px]"
               >
                 <div className="w-full h-[360px] bg-white flex items-end justify-center overflow-hidden">
                   <img
@@ -46,7 +46,7 @@ export default function ArtistDetails() {
             ))}
           </div>
 
-          <div className="flex gap-2 justify-start mt-2">
+          <div className="flex gap-2 justify-start md:mt-2">
             <button
               onClick={() => topScrollRef.current?.scrollBy({ left: -300, behavior: 'smooth' })} className='text-xl hover:text-[#AAAAAA] hover:scale-110'
             >
@@ -97,10 +97,7 @@ export default function ArtistDetails() {
         <h2 className="text-2xl uppercase font-bold mb-2">Bio</h2>
         <div className="border-t border-black mb-2" />
         <p className="text-md uppercase font-bold mb-4">{artist.location}</p>
-        {/* <div className="text-md w-2/3 leading-tight">
-          <PortableText value={artist.bio} />
-        </div> */}
-        <p className="text-md whitespace-pre-line w-2/3">
+        <p className="text-md whitespace-pre-line md:w-2/3 leading-tight">
           {artist.bio}
         </p>
       </div>
