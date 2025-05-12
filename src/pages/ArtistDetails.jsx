@@ -32,7 +32,7 @@ export default function ArtistDetails() {
             {artist.topImages?.map((img, i) => (
               <div
                 key={i}
-                className="w-screen flex-shrink-0 snap-start flex flex-col items-start md:min-w-[250px] md:max-w-[250px]"
+                className="w-screen flex-shrink-0 snap-start flex flex-col items-start md:min-w-[250px] md:max-w-[250px] scrollbar-hidden"
               >
                 <div className="w-full h-[360px] bg-white flex items-end justify-center overflow-hidden">
                   <img
@@ -68,7 +68,7 @@ export default function ArtistDetails() {
         <div className="relative overflow-hidden mb-10">
           <div
             ref={portfolioRef}
-            className="flex overflow-x-auto scroll-smooth snap-x snap-mandatory gap-4"
+            className="flex overflow-x-auto scroll-smooth snap-x snap-mandatory gap-4 scrollbar-hidden"
           >
             {artist.portfolioImages?.map((img, i) => (
               <img

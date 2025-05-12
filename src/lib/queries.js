@@ -25,6 +25,7 @@ export const getArtistBySlug = `
 `;
 
 // Query for Exhibitions
+// Query for Exhibitions
 export const getExhibitions = `
   *[_type == "exhibition"] | order(start asc) {
     _id,
@@ -35,6 +36,9 @@ export const getExhibitions = `
     "slug": slug.current,
     description,
     images[]{
+      asset->{ url }
+    },
+    pressRelease{
       asset->{ url }
     },
     artist->{

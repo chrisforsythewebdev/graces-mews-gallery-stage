@@ -42,7 +42,7 @@ export default function Nav({ color = '#000000' }) {
             to={to}
             className={({ isActive }) =>
               (isActive || (match && match(pathname)) ? activeStyle : '') +
-              ' transition-transform duration-300 md:hover:scale-110 inline-block'
+              ' transition-transform duration-300 inline-block'
             }
             style={{ color }}
           >

@@ -80,8 +80,7 @@ export default function Info() {
                 href="https://www.dobedo.com/shop"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-yellow-400 text-black font-bold rounded-full w-32 h-32 flex items-center justify-center text-center rotate-[-20deg] shadow-md animate-slowspin"
-              >
+                className="bg-black text-white font-bold rounded-full w-32 h-32 flex items-center justify-center text-center">
                 SHOP<br />ONLINE
               </a>
             </div>

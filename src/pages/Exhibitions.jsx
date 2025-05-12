@@ -182,7 +182,7 @@ export default function Exhibitions() {
                 <div className="hidden md:flex flex-col items-center w-full space-y-2">
                   <div
                     ref={carouselRef}
-                    className="flex overflow-x-auto snap-x snap-mandatory scroll-smooth gap-4 w-full"
+                    className="flex overflow-x-auto snap-x snap-mandatory scroll-smooth gap-4 w-full scrollbar-hidden"
                   >
                     {item.images?.map((img, i) => (
                       <img
@@ -212,6 +212,17 @@ export default function Exhibitions() {
                 {/* Description */}
                 {item.description && (
                   <p className="text-md md:text-lg max-w-3xl tracking-tight">{item.description}</p>
+                )}
+
+                {/* Press Release Download Link */}
+                {item.pressRelease?.asset?.url && (
+                  <a
+                    href={item.pressRelease.asset.url}
+                    download
+                    className="inline-block mt-2 underline hover:text-blue-600 text-md md:text-lg"
+                  >
+                    Download Press Release 
+                  </a>
                 )}
   
               </div>

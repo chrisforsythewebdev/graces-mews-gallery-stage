@@ -31,10 +31,6 @@ export default function Homepage() {
     if (slug) navigate(`/exhibitions?expand=${slug}`);
   };
 
-  const hoverOffset =
-    hovered === 'next' ? -0.05 :
-    hovered === 'prev' ? 0.05 : 0;
-
   if (slides.length === 0) {
     return <div className="h-screen flex justify-center items-center">Loading...</div>;
   }
@@ -42,14 +38,21 @@ export default function Homepage() {
   const currentSlide = slides[currentIndex];
   const themeColor = currentSlide.themeColor || '#000';
 
+  // Only apply preview offset if not on first/last
+  const maxIndex = slides.length - 1;
+  const offset =
+    (hovered === 'next' && currentIndex < maxIndex) ? -5 :
+    (hovered === 'prev' && currentIndex > 0) ? 5 :
+    0;
+
   return (
     <div className="relative h-screen w-screen overflow-hidden">
       {/* Background Image Carousel */}
       <div className="absolute inset-0 overflow-hidden">
         <div
-          className="flex transition-transform duration-700 ease-in-out h-full"
+          className="flex transition-transform duration-[1200ms] ease-in-out h-full"
           style={{
-            transform: `translateX(calc(-${currentIndex * 100}% + ${hoverOffset * 100}%))`,
+            transform: `translateX(calc(-${currentIndex * 100}% + ${offset}%))`,
           }}
         >
           {slides.map((slide, idx) => (
@@ -58,6 +61,7 @@ export default function Homepage() {
                 src={slide.image.asset.url}
                 alt={slide.title}
                 className="w-full h-full object-cover"
+                style={{ objectPosition: 'center' }}
               />
             </div>
           ))}
@@ -78,9 +82,7 @@ export default function Homepage() {
           onClick={handleTitleClick}
           onMouseEnter={() => setHovered('cta')}
           onMouseLeave={() => setHovered(null)}
-          className={`absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center transition-all duration-300 ease-in-out transform ${
-            hovered === 'cta' ? 'scale-[1.08]' : 'scale-100'
-          }`}
+          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center transition-all duration-300"
           style={{
             color: themeColor,
             width: '385px',
