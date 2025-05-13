@@ -21,7 +21,7 @@ export default function ArtistDetails() {
   return (
     <Layout>
       <div className="w-full max-w-6xl mx-auto px-4 md:px-8 mt-4 pb-[60px]">
-        <h1 className="text-2xl font-bold uppercase mb-4 underline">{artist.name}</h1>
+        <h1 className="text-2xl font-bold font-gracesmews uppercase mb-4 underline">{artist.name}</h1>
 
         {/* Top Scrollable Image Section */}
         <div className="relative overflow-hidden mb-6">
@@ -41,7 +41,7 @@ export default function ArtistDetails() {
                     className="max-h-full max-w-full object-contain"
                   />
                 </div>
-                <p className="text-md font-semibold mt-1">{img.caption}</p>
+                <p className="text-sm  mt-1">{img.caption}</p>
               </div>
             ))}
           </div>
@@ -61,7 +61,7 @@ export default function ArtistDetails() {
         </div>
 
         {/* Section Label */}
-        <h2 className="text-2xl uppercase font-bold mb-2">Portfolio</h2>
+        <h2 className="text-2xl uppercase font-bold mb-2 font-gracesmews">Portfolio</h2>
         <div className="border-t border-black mb-4" />
 
         {/* Scrollable Portfolio */}
@@ -94,9 +94,9 @@ export default function ArtistDetails() {
         </div>
 
         {/* Bio Section */}
-        <h2 className="text-2xl uppercase font-bold mb-2">Bio</h2>
+        <h2 className="text-2xl uppercase font-bold mb-2 font-gracesmews">Bio</h2>
         <div className="border-t border-black mb-2" />
-        <p className="text-md uppercase font-bold mb-4">{artist.location}</p>
+        <p className="text-lg uppercase font-bold mb-4 font-gracesmews">{artist.location}</p>
         <p className="text-md whitespace-pre-line md:w-2/3 leading-tight">
           {artist.bio}
         </p>

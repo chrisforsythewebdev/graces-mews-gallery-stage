@@ -16,7 +16,7 @@ export default function Nav({ color = '#000000' }) {
 
   return (
     <nav
-      className="space-x-4 md:space-x-8 text-2xl font-bold md:mb-8"
+      className="space-x-4 md:space-x-8 text-2xl font-bold md:mb-8 font-gracesmews"
       style={{ color }}
     >
       {links.map(({ to, label, match, hideOnHome, external }) => {

@@ -105,7 +105,7 @@ export default function Exhibitions() {
           className="hidden md:grid grid-cols-[1fr_1fr_1fr_1fr_144px] gap-4 text-lg items-start group"
         >
           <div className="flex flex-col justify-between h-full relative">
-            <p className="font-semibold">{formatDateRange(item.start, item.end)}</p>
+            <p className="font-gracesmews font-semibold">{formatDateRange(item.start, item.end)}</p>
             <button
               onClick={() => setIsExpanded(prev => !prev)}
               className={`absolute bottom-0 left-0 text-xl transition-all duration-700 hover:text-[#AAAAAA] hover:scale-150
@@ -118,15 +118,15 @@ export default function Exhibitions() {
           <p className="font-semibold">
             <Link
               to={`/artist/${item.artist?.slug}`}
-              className={`${isExpanded ? 'underline' : ''} text-[#000] hover:text-[#AAAAAA]`}
+              className={`${isExpanded ? 'underline' : ''} text-[#000] hover:text-[#AAAAAA] font-gracesmews`}
 
               onClick={(e) => e.stopPropagation()}
             >
               {item.artist?.name}
             </Link>
           </p>
-          <p className="font-semibold uppercase">{item.title}</p>
-          <p className="mb-4">{item.location}</p>
+          <p className="font-semibold font-gracesmews uppercase">{item.title}</p>
+          <p className="mb-4 font-gracesmews ">{item.location}</p>
           <div className="w-36 h-24 relative">
             <AnimatePresence mode="wait">
               {!isExpanded && item.images?.[0]?.asset?.url && (
@@ -147,15 +147,15 @@ export default function Exhibitions() {
   
         {/* Mobile Header */}
         <div className="md:hidden flex flex-col space-y-1" onClick={() => setIsExpanded(prev => !prev)}>
-          <p className="text-lg font-semibold leading-tight">{start} – {end}</p>
+          <p className="text-lg font-semibold leading-tight font-gracesmews">{start} – {end}</p>
           {item.images?.[0]?.asset?.url && (
             <img src={item.images[0].asset.url} alt={item.title} className="w-full h-[220px] object-cover my-2" />
           )}
-          <div className="flex justify-between text-lg font-bold uppercase leading-tight tracking-tight">
+          <div className="flex justify-between text-lg font-bold uppercase leading-tight tracking-tight font-gracesmews">
             <p>{item.title}</p>
             <p>{item.location}</p>
           </div>
-          <p className="text-lg font-semibold leading-tight tracking-tight">
+          <p className="text-lg font-semibold leading-tight tracking-tight font-gracesmews">
             <Link
               to={`/artist/${item.artist?.slug}`}
               className="hover:text-[#AAAAAA]"
@@ -211,15 +211,16 @@ export default function Exhibitions() {
   
                 {/* Description */}
                 {item.description && (
-                  <p className="text-md md:text-lg max-w-3xl tracking-tight">{item.description}</p>
+                  <p className="text-md max-w-3xl tracking-tight">{item.description}</p>
                 )}
 
                 {/* Press Release Download Link */}
                 {item.pressRelease?.asset?.url && (
                   <a
+                    target='_blank'
                     href={item.pressRelease.asset.url}
                     download
-                    className="inline-block mt-2 underline hover:text-blue-600 text-md md:text-lg"
+                    className="inline-block mt-2 underline hover:text-[#AAAAAA] text-md"
                   >
                     Download Press Release 
                   </a>
@@ -242,7 +243,7 @@ export default function Exhibitions() {
               key={section}
               className={`w-full max-w-6xl mb-12 ${section === 'past' ? 'mb-24' : ''}`}
             >
-              <h2 className="text-[32px] font-bold leading-none mb-4">
+              <h2 className="text-[32px] font-gracesmews font-bold leading-none mb-4">
                 {section.toUpperCase()}
               </h2>
               <div className={`border-b border-black ${section === 'past' ? 'opacity-50 mb-2' : ''}`} />
@@ -253,17 +254,17 @@ export default function Exhibitions() {
   
                     {/* Desktop Layout */}
                     <div className="hidden md:grid grid-cols-[1fr_1fr_1fr_1fr_144px] gap-4 text-lg items-start opacity-30">
-                      <p className="font-semibold">{formatDateRange(item.start, item.end)}</p>
-                      <p className="font-semibold">{item.artist?.name}</p>
-                      <p className="font-semibold uppercase">{item.title}</p>
+                      <p className="font-gracesmews text-lg font-semibold">{formatDateRange(item.start, item.end)}</p>
+                      <p className="font-semibold text-lg font-gracesmews">{item.artist?.name}</p>
+                      <p className="font-semibold text-lg font-gracesmews uppercase">{item.title}</p>
                       <div className="w-36 h-24" />
                     </div>
   
                     {/* Mobile Layout */}
                     <div className="md:hidden flex flex-col space-y-1 opacity-30">
-                      <p className="text-lg font-semibold leading-tight">{formatDateRange(item.start, item.end)}</p>
-                      <p className="text-lg font-semibold leading-tight">{item.artist?.name}</p>
-                      <div className="flex justify-between text-lg font-bold uppercase leading-tight">
+                      <p className="text-lg font-gracesmews font-semibold leading-tight">{formatDateRange(item.start, item.end)}</p>
+                      <p className="text-lg font-gracesmews font-semibold leading-tight">{item.artist?.name}</p>
+                      <div className="flex font-gracesmews justify-between text-lg font-bold uppercase leading-tight">
                         <p>{item.title}</p>
                       </div>
                     </div>

@@ -36,7 +36,7 @@ export default function News() {
 
   return (
     <Layout>
-      <div className="relative w-full text-xl md:text-2xl max-w-6xl mx-auto mt-2 px-4 md:px-8">
+      <div className="relative w-full text-xl md:text-2xl max-w-6xl mx-auto mt-2 px-4 md:px-8 font-gracesmews">
         {isDesktop && hoveredItem && (
           <div className="fixed inset-0 flex items-center justify-end pr-[280px] z-10 pointer-events-none">
             <img

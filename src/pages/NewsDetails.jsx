@@ -34,8 +34,8 @@ export default function NewsDetail() {
         {/* Mobile Title and Top Description */}
         <div className="md:hidden mb-4 w-full">
           <div className="w-3/4">
-            <h2 className="font-bold text-lg uppercase">{item.title}</h2>
-            <p className="text-sm text-gray-500">
+            <h2 className="font-bold font-gracesmews text-lg uppercase">{item.title}</h2>
+            <p className="text-sm font-gracesmews text-gray-500">
               {item.fullDate ? new Date(item.fullDate).toLocaleDateString('en-GB', {
                 day: 'numeric',
                 month: 'long',
@@ -54,7 +54,7 @@ export default function NewsDetail() {
         <div className="hidden md:grid grid-cols-12 gap-8 mb-8">
           <div className="col-span-4">
             <h2 className="font-bold text-lg uppercase mb-2">{item.title}</h2>
-            <p className="text-sm text-gray-500">
+            <p className="text-sm font-gracesmews text-gray-500">
               {item.fullDate ? new Date(item.fullDate).toLocaleDateString('en-GB', {
                 day: 'numeric',
                 month: 'long',
@@ -63,7 +63,7 @@ export default function NewsDetail() {
             </p>
           </div>
           <div className="col-span-1" />
-          <div className="col-span-7 text-sm md:text-base font-semibold w-full pr-14">
+          <div className="col-span-7 text-sm md:text-base w-full pr-14">
             {item.descriptionTop && <PortableText value={item.descriptionTop} />}
           </div>
         </div>
@@ -106,7 +106,7 @@ export default function NewsDetail() {
           <div className="hidden md:grid grid-cols-12 gap-8 mt-4">
             <div className="col-span-4" />
             <div className="col-span-1" />
-            <div className="col-span-7 text-sm md:text-base font-semibold w-full pr-14">
+            <div className="col-span-7 text-sm md:text-base w-full pr-14">
               {item.descriptionBottom && <PortableText value={item.descriptionBottom} />}
               {item.video && (
                 <div className="aspect-video my-4">
@@ -118,9 +118,9 @@ export default function NewsDetail() {
                   />
                 </div>
               )}
-              {item.videoDescription && <p className="text-sm opacity-60">{item.videoDescription}</p>}
+              {item.videoDescription && <p className="text-sm opacity-60 font-gracesmews">{item.videoDescription}</p>}
               {item.buyText && (
-                <p className="text-lg mt-6">
+                <p className="text-lg mt-6 font-gracesmews">
                   {item.buyLink ? (
                     <a href={item.buyLink} target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">
                       {item.buyText}

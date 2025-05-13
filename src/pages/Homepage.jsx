@@ -82,7 +82,7 @@ export default function Homepage() {
           onClick={handleTitleClick}
           onMouseEnter={() => setHovered('cta')}
           onMouseLeave={() => setHovered(null)}
-          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center transition-all duration-300"
+          className="font-gracesmews absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center transition-all duration-300"
           style={{
             color: themeColor,
             width: '385px',

@@ -11,7 +11,7 @@
   }  
 
 body {
-    @apply font-gracesmews;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     @apply tracking-tight;
 }
 
