@@ -1,0 +1,9 @@
+{
+    "redirects": [
+      {
+        "source": "https://gracesmews.com",
+        "destination": "https://www.gracesmews.com",
+        "permanent": true
+      }
+    ]
+  }
