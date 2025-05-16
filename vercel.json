@@ -1,9 +1,16 @@
 {
     "redirects": [
       {
-        "source": "https://gracesmews.com",
+        "source": "/",
+        "has": [
+          {
+            "type": "host",
+            "value": "gracesmews.com"
+          }
+        ],
         "destination": "https://www.gracesmews.com",
         "permanent": true
       }
     ]
   }
+  
