@@ -8,8 +8,8 @@ export default function Nav({ color = '#000000' }) {
 
   const links = [
     {
-      to: '/info',
-      label: 'INFO',
+      to: '/about',
+      label: 'ABOUT',
       external: false,
     },
   ];
