@@ -250,14 +250,13 @@ export default function Exhibitions() {
   
               {section === 'past' ? (
                 exhibitions.past.map((item, i) => (
-                  <div key={item._id} id={`exhibition-past-${i}`} className="border-b border-black py-4">
+                  <div key={item._id} id={`exhibition-past-${i}`} className="py-1">
   
                     {/* Desktop Layout */}
                     <div className="hidden md:grid grid-cols-[1fr_1fr_1fr_1fr_144px] gap-4 text-lg items-start opacity-30">
                       <p className="font-gracesmews text-lg font-semibold">{formatDateRange(item.start, item.end)}</p>
                       <p className="font-semibold text-lg font-gracesmews">{item.artist?.name}</p>
                       <p className="font-semibold text-lg font-gracesmews uppercase">{item.title}</p>
-                      <div className="w-36 h-24" />
                     </div>
   
                     {/* Mobile Layout */}
