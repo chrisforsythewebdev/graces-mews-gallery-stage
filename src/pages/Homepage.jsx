@@ -122,9 +122,9 @@ export default function Homepage() {
       >
         &rarr;
       </button>
-      <div className="fixed bottom-0 left-0 w-full flex justify-center z-50 py-4">
-  <Nav color={themeColor} />
-</div>
+      <div className="md:hidden fixed bottom-0 left-0 w-full flex justify-center z-50 py-4">
+        <Nav color={themeColor} />
+      </div>
     </div>
   );
 }

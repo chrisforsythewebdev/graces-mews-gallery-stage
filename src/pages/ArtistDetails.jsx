@@ -50,7 +50,7 @@ export default function ArtistDetails() {
                     href={img.link || '#'}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-sm text-center mt-2 hover:underline"
+                    className="text-sm text-center mt-2 hover:text-[#AAAAAA] "
                   >
                     {img.caption}
                   </a>
