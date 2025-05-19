@@ -11,7 +11,8 @@ export const getArtistBySlug = `
           url
         }
       },
-      caption
+      caption,
+      link
     },
     portfolioImages[] {
       image {
@@ -19,12 +20,13 @@ export const getArtistBySlug = `
           url
         }
       },
-      caption
+      caption,
+      link
     }
   }
 `;
 
-// Query for Exhibitions
+
 // Query for Exhibitions
 export const getExhibitions = `
   *[_type == "exhibition"] | order(start asc) {
@@ -102,6 +104,19 @@ export const getNewsItemBySlug = (slug) => `
     descriptionBottom
   }
 `;
+
+export const getAbout = `*[_type == "about"][0]{
+  content,
+  shopLink,
+  email,
+  addresses,
+  image {
+    asset-> {
+      url
+    }
+  }
+}`;
+
 
 
  

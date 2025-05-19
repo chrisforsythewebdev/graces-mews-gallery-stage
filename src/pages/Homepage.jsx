@@ -72,9 +72,7 @@ export default function Homepage() {
       <div className="absolute inset-0 flex flex-col justify-between z-10">
         <div className="flex flex-col items-center pt-8">
           <Header color={themeColor} />
-          <div className="md:hidden mt-4">
-            <Nav color={themeColor} />
-          </div>
+
         </div>
 
         {/* Center CTA and Title */}
@@ -124,6 +122,9 @@ export default function Homepage() {
       >
         &rarr;
       </button>
+      <div className="fixed bottom-0 left-0 w-full flex justify-center z-50 py-4">
+  <Nav color={themeColor} />
+</div>
     </div>
   );
 }

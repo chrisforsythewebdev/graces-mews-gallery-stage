@@ -32,13 +32,32 @@ export default {
         name: 'topImages',
         title: 'Top Images',
         type: 'array',
-        of: [{
-          type: 'object',
-          fields: [
-            { name: 'image', type: 'image', title: 'Image' },
-            { name: 'caption', type: 'string', title: 'Caption' },
-          ],
-        }],
+        of: [
+          {
+            type: 'object',
+            fields: [
+              {
+                name: 'image',
+                title: 'Image',
+                type: 'image',
+                options: {
+                  hotspot: true,
+                },
+              },
+              {
+                name: 'caption',
+                title: 'Caption',
+                type: 'string',
+              },
+              {
+                name: 'link',
+                title: 'Link (optional)',
+                type: 'url',
+                description: 'Optional link for image and caption',
+              },
+            ],
+          },
+        ],
       },
       {
         name: 'portfolioImages',

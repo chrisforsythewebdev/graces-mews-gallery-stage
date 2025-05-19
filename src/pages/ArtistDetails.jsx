@@ -14,14 +14,13 @@ export default function ArtistDetails() {
   useEffect(() => {
     client.fetch(getArtistBySlug, { slug }).then(setArtist);
   }, [slug]);
-  
 
   if (!artist) return <p>Loading artist...</p>;
 
   return (
     <Layout>
       <div className="w-full max-w-6xl mx-auto px-4 md:px-8 mt-4 pb-[60px]">
-        <h1 className="text-2xl font-bold font-gracesmews uppercase mb-4 underline">{artist.name}</h1>
+        <h1 className="text-2xl font-bold font-gracesmews uppercase mb-4 md:mb-0 underline">{artist.name}</h1>
 
         {/* Top Scrollable Image Section */}
         <div className="relative overflow-hidden mb-6">
@@ -32,28 +31,44 @@ export default function ArtistDetails() {
             {artist.topImages?.map((img, i) => (
               <div
                 key={i}
-                className="w-screen flex-shrink-0 snap-start flex flex-col items-start md:min-w-[250px] md:max-w-[250px] scrollbar-hidden"
+                className="flex-shrink-0 snap-start flex flex-col items-center justify-center md:w-[300px] md:h-[400px]"
               >
-                <div className="w-full h-[360px] bg-white flex items-end justify-center overflow-hidden">
+                <a
+                  href={img.link || '#'}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center w-full h-[300px] bg-white overflow-hidden"
+                >
                   <img
                     src={img.image.asset.url}
                     alt={`Top ${i}`}
                     className="max-h-full max-w-full object-contain"
                   />
-                </div>
-                <p className="text-sm  mt-1">{img.caption}</p>
+                </a>
+                {img.caption && (
+                  <a
+                    href={img.link || '#'}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm text-center mt-2 hover:underline"
+                  >
+                    {img.caption}
+                  </a>
+                )}
               </div>
             ))}
           </div>
 
           <div className="flex gap-2 justify-start md:mt-2">
             <button
-              onClick={() => topScrollRef.current?.scrollBy({ left: -300, behavior: 'smooth' })} className='text-xl hover:text-[#AAAAAA] hover:scale-110'
+              onClick={() => topScrollRef.current?.scrollBy({ left: -300, behavior: 'smooth' })}
+              className="text-xl hover:text-[#AAAAAA] hover:scale-110"
             >
               ←
             </button>
             <button
-              onClick={() => topScrollRef.current?.scrollBy({ left: 300, behavior: 'smooth' })} className='text-xl hover:text-[#AAAAAA] hover:scale-110'
+              onClick={() => topScrollRef.current?.scrollBy({ left: 300, behavior: 'smooth' })}
+              className="text-xl hover:text-[#AAAAAA] hover:scale-110"
             >
               →
             </button>
@@ -81,12 +96,14 @@ export default function ArtistDetails() {
           </div>
           <div className="flex gap-2 mt-2 justify-start">
             <button
-              onClick={() => portfolioRef.current?.scrollBy({ left: -300, behavior: 'smooth' })} className='text-xl hover:text-[#AAAAAA] hover:scale-110'
+              onClick={() => portfolioRef.current?.scrollBy({ left: -300, behavior: 'smooth' })}
+              className="text-xl hover:text-[#AAAAAA] hover:scale-110"
             >
               ←
             </button>
             <button
-              onClick={() => portfolioRef.current?.scrollBy({ left: 300, behavior: 'smooth' })} className='text-xl hover:text-[#AAAAAA] hover:scale-110'
+              onClick={() => portfolioRef.current?.scrollBy({ left: 300, behavior: 'smooth' })}
+              className="text-xl hover:text-[#AAAAAA] hover:scale-110"
             >
               →
             </button>
