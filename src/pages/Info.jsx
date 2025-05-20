@@ -24,7 +24,7 @@ export default function Info() {
 
   return (
     <Layout>
-      <div className="w-full max-w-6xl px-4 md:px-0 mx-auto mt-2 md:mt-6 grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+      <div className="w-full max-w-6xl px-4 md:px-0 mx-auto mt-2 md:mt-16 grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-12 ">
         {/* Mobile Image */}
         <div className="md:hidden w-full flex justify-center mb-6">
           <img
@@ -38,7 +38,7 @@ export default function Info() {
         {/* Text + Addresses + Button */}
         <div className="flex flex-col space-y-6">
           {/* Sanity Content */}
-          <div className="text-md space-y-4">
+          <div className="text-sm space-y-2 md:space-y-4">
             <PortableText value={aboutData.content} />
           </div>
 
@@ -48,43 +48,47 @@ export default function Info() {
               href={aboutData.shopLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-black text-white font-bold rounded-full w-32 h-32 flex items-center justify-center text-center"
+              className="text-xl font-gracesmews font-bold animate-flash-fade"
             >
-              SHOP<br />ONLINE
+              SHOP ONLINE
             </a>
           </div>
 
           {/* Addresses + Email + Shop button */}
-          <div className="w-full flex flex-col md:flex-row md:justify-between md:items-start text-gray-500 text-md gap-8">
-            <div className="flex flex-col w-full gap-4">
-              {/* Addresses */}
+          <div className="w-full flex flex-col md:flex-row md:items-start md:gap-8 text-gray-500 text-md">
+            {/* Addresses + Email */}
+            <div className="flex-1 flex flex-col gap-4">
               <div className="grid grid-cols-2 gap-8 w-full">
                 {aboutData.addresses?.map((addr, i) => (
                   <div key={i}>
                     <p className="font-gracesmews text-lg text-black">{addr.city}</p>
-                    {addr.lines.map((line, j) => <p key={j}>{line}</p>)}
+                    {addr.lines.map((line, j) => <p className="text-sm" key={j}>{line}</p>)}
                   </div>
                 ))}
               </div>
-
-              {/* Email */}
               <a
                 href={`mailto:${aboutData.email}`}
                 className="text-gray-500 font-semibold text-md hover:underline"
               >
                 {aboutData.email}
               </a>
+              <a
+                href="tel:+440203 740 6555"
+                className="text-gray-500 font-semibold text-md hover:underline gap-0"
+              >
+                + 44 0203 740 6555
+              </a>
             </div>
 
-            {/* SHOP ONLINE Button - Unified */}
-            <div className="hidden md:flex mt-4 md:mt-0 md:ml-8 shrink-0">
-            <a
+            {/* SHOP ONLINE Button */}
+            <div className="hidden md:flex self-start">
+              <a
                 href={aboutData.shopLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-black text-white font-bold rounded-full w-32 h-32 flex items-center justify-center text-center"
+                className="text-xl font-gracesmews font-bold animate-flash-fade whitespace-nowrap"
               >
-                SHOP<br />ONLINE
+                SHOP ONLINE
               </a>
             </div>
           </div>

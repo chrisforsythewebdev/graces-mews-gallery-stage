@@ -5,6 +5,9 @@ export default function Nav({ color = '#000000' }) {
   const activeStyle = 'underline';
 
   const isHome = pathname === '/';
+  const isAbout = pathname === '/about';
+
+  if (isAbout) return null;
 
   const links = [
     {

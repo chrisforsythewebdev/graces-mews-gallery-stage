@@ -102,31 +102,26 @@ export default function Exhibitions() {
         {/* Desktop Header */}
         <div
           ref={headerRef}
-          className="hidden md:grid grid-cols-[1fr_1fr_1fr_1fr_144px] gap-4 text-lg items-start group"
+          className="relative hidden md:grid grid-cols-[1fr_1fr_1fr_1fr_144px] gap-4 text-lg items-start group cursor-pointer"
+          onClick={() => setIsExpanded(prev => !prev)}
         >
-          <div className="flex flex-col justify-between h-full relative">
+          <div className="flex flex-col justify-between h-full">
             <p className="font-gracesmews font-semibold">{formatDateRange(item.start, item.end)}</p>
-            <button
-              onClick={() => setIsExpanded(prev => !prev)}
-              className={`absolute bottom-0 left-0 text-xl transition-all duration-700 hover:text-[#AAAAAA] hover:scale-150
-                ${isExpanded ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0'}
-              `}
-            >
-              {isExpanded ? '↑' : '↓'}
-            </button>
           </div>
+
           <p className="font-semibold">
             <Link
               to={`/artist/${item.artist?.slug}`}
-              className={`${isExpanded ? 'underline' : ''} text-[#000] hover:text-[#AAAAAA] font-gracesmews`}
-
               onClick={(e) => e.stopPropagation()}
+              className={`${isExpanded ? 'underline' : ''} text-[#000] hover:text-[#AAAAAA] font-gracesmews`}
             >
               {item.artist?.name}
             </Link>
           </p>
+
           <p className="font-semibold font-gracesmews uppercase">{item.title}</p>
-          <p className="mb-4 font-gracesmews ">{item.location}</p>
+          <p className="mb-4 font-gracesmews">{item.location}</p>
+
           <div className="w-36 h-24 relative">
             <AnimatePresence mode="wait">
               {!isExpanded && item.images?.[0]?.asset?.url && (
@@ -143,6 +138,19 @@ export default function Exhibitions() {
               )}
             </AnimatePresence>
           </div>
+
+          {/* Arrow Button Floating at Bottom Center */}
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsExpanded(prev => !prev);
+            }}
+              className={`absolute -bottom-2 left-1/2 -translate-x-1/2 text-xl transition-all duration-700 hover:text-[#AAAAAA] hover:scale-150
+                ${isExpanded ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}
+              `}
+          >
+            {isExpanded ? '↑' : '↓'}
+          </button>
         </div>
   
         {/* Mobile Header */}
