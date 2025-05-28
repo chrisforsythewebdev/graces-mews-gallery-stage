@@ -2,27 +2,28 @@ import { NavLink, useLocation } from 'react-router-dom';
 
 export default function Nav({ color = '#000000' }) {
   const { pathname } = useLocation();
-  const activeStyle = 'underline';
-
   const isHome = pathname === '/';
   const isAbout = pathname === '/about';
 
-  if (isAbout) return null;
-
-  const links = [
-    {
-      to: '/about',
-      label: 'ABOUT',
-      external: false,
-    },
-  ];
+  const links = isAbout
+    ? [
+    ]
+    : [
+        {
+          to: '/about',
+          label: 'ABOUT',
+          external: false,
+          hideOnHome: false, // adjust if needed
+        },
+        // You can add more links here with similar structure
+      ];
 
   return (
     <nav
       className="space-x-4 md:space-x-8 text-2xl font-bold md:mb-8 font-gracesmews"
       style={{ color }}
     >
-      {links.map(({ to, label, match, hideOnHome, external }) => {
+      {links.map(({ to, label, external, hideOnHome }) => {
         if (isHome && hideOnHome) return null;
 
         if (external) {
@@ -44,10 +45,10 @@ export default function Nav({ color = '#000000' }) {
             key={to}
             to={to}
             className={({ isActive }) =>
-              (isActive || (match && match(pathname)) ? activeStyle : '') +
-              ' transition-transform duration-300 inline-block'
+              `transition-transform duration-300 md:hover:scale-110 inline-block ${
+                isActive ? 'underline' : ''
+              }`
             }
-            style={{ color }}
           >
             {label}
           </NavLink>

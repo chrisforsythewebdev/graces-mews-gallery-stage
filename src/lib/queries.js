@@ -109,6 +109,7 @@ export const getAbout = `*[_type == "about"][0]{
   content,
   shopLink,
   email,
+  phone,
   addresses,
   image {
     asset-> {
@@ -116,9 +117,3 @@ export const getAbout = `*[_type == "about"][0]{
     }
   }
 }`;
-
-
-
- 
-
-

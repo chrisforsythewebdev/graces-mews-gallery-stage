@@ -20,6 +20,16 @@ export default {
         type: 'string',
       },
       {
+        name: 'phone',
+        title: 'Phone Number',
+        type: 'string',
+        validation: Rule =>
+          Rule.regex(/^\+?[0-9\s\-().]{7,}$/, {
+            name: 'phone number',
+            invert: false,
+          }).warning('Should be a valid phone number'),
+      },
+      {
         name: 'addresses',
         title: 'Addresses',
         type: 'array',
