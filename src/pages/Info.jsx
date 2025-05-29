@@ -43,7 +43,23 @@ export default function Info() {
           
           {/* Sanity Content */}
           <div className="text-sm space-y-2 md:space-y-4">
-            <PortableText value={aboutData.content} />
+            <PortableText
+              value={aboutData.content}
+              components={{
+                marks: {
+                  link: ({ value, children }) => (
+                    <a
+                      href={value?.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="underline font-bold"
+                    >
+                      {children}
+                    </a>
+                  ),
+                },
+              }}
+            />
           </div>
 
           {/* SHOP ONLINE button — Mobile only */}
@@ -72,7 +88,7 @@ export default function Info() {
                 ))}
               </div>
 
-              <div className="mt-2 text-md">
+              <div className="mt-2 text-sm">
                 <a
                   href={`mailto:${aboutData.email}`}
                   className="block hover:underline"
