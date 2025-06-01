@@ -62,18 +62,6 @@ export default function Info() {
             />
           </div>
 
-          {/* SHOP ONLINE button — Mobile only */}
-          <div className="flex justify-center md:hidden mt-4">
-            <a
-              href={aboutData.shopLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-xl font-gracesmews font-bold animate-flash-fade"
-            >
-              SHOP ONLINE
-            </a>
-          </div>
-
           {/* Addresses + Email */}
           <div className="w-full flex flex-col md:flex-row md:items-start md:gap-8 text-md">
             <div className="flex-1 flex flex-col gap-4">
