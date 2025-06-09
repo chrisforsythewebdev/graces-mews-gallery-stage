@@ -39,10 +39,10 @@ export default function Info() {
         </div>
 
         {/* Text + Addresses */}
-        <div className="flex flex-col space-y-6 w-full max-w-md px-4 md:px-6">
+        <div className="flex flex-col space-y-6 w-full max-w-md pr-4 md:pr-6">
           
           {/* Sanity Content */}
-          <div className="text-sm space-y-2 md:space-y-4">
+          <div className="text-md space-y-2 md:space-y-4">
             <PortableText
               value={aboutData.content}
               components={{
@@ -68,15 +68,15 @@ export default function Info() {
               <div className="grid grid-cols-2 gap-8 w-full">
                 {aboutData.addresses?.map((addr, i) => (
                   <div key={i}>
-                    <p className="font-gracesmews text-lg text-black">{addr.city}</p>
+                    <p className="font-gracesmews text-xl text-black">{addr.city}</p>
                     {addr.lines.map((line, j) => (
-                      <p className="text-sm" key={j}>{line}</p>
+                      <p className="text-md" key={j}>{line}</p>
                     ))}
                   </div>
                 ))}
               </div>
 
-              <div className="mt-2 text-sm">
+              <div className="mt-2 text-md">
                 <a
                   href={`mailto:${aboutData.email}`}
                   className="block hover:underline"
