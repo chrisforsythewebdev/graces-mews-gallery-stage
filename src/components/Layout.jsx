@@ -9,7 +9,7 @@ export default function Layout({ children }) {
   return (
     <div className="flex flex-col h-screen">
       {/* Fixed Header */}
-      <header className="fixed top-0 left-0 w-full z-50 bg-white pt-6 flex flex-col items-center">
+      <header className="fixed top-0 left-0 w-full z-50 bg-white py-2 md:pt-8 flex flex-col items-center">
         <Header />
       </header>
 

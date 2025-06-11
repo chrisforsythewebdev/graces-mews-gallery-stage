@@ -10,10 +10,27 @@
   font-display: swap;
 }  
 
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 body {
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   @apply tracking-tight;
 }
+
+.font-gracesmews {
+  font-family: 'GRACESMEWS', sans-serif;
+}
+
+/* Safari-only: fix bold appearance */
+@supports (-webkit-touch-callout: none) {
+  .font-gracesmews {
+    font-weight: 400;
+  }
+}
+
 
 /* Hide scrollbar for all browsers */
 .scrollbar-hidden {
