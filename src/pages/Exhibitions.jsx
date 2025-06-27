@@ -1,9 +1,10 @@
 import { useState, useRef, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import Layout from '../components/Layout';
 import { client } from '../lib/client';
 import { getExhibitions } from '../lib/queries';
 import { motion, AnimatePresence } from 'framer-motion';
+import Layout from '../components/Layout';
+import { PortableText } from '@portabletext/react';
 
 export default function Exhibitions() {
   const location = useLocation();
@@ -38,8 +39,8 @@ export default function Exhibitions() {
       setExpandedIndex(key);
 
       setTimeout(() => {
-        const el = document.getElementById(`exhibition-${key}`);
-        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // const el = document.getElementById(`exhibition-${key}`);
+        // if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
         const url = new URL(window.location.href);
         url.searchParams.delete('expand');
@@ -93,7 +94,7 @@ export default function Exhibitions() {
   
     useEffect(() => {
       if (expandOnLoad && headerRef.current) {
-        headerRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // headerRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     }, [expandOnLoad]);
   
@@ -156,9 +157,22 @@ export default function Exhibitions() {
         {/* Mobile Header */}
         <div className="md:hidden flex flex-col space-y-1" onClick={() => setIsExpanded(prev => !prev)}>
           <p className="text-lg font-semibold leading-tight font-gracesmews">{start} – {end}</p>
-          {item.images?.[0]?.asset?.url && (
+          {/* {item.images?.[0]?.asset?.url && (
             <img src={item.images[0].asset.url} alt={item.title} className="w-full h-[220px] object-cover my-2" />
+          )} */}
+          {item.images?.length > 0 && (
+            <div className="flex overflow-x-auto snap-x snap-mandatory scroll-smooth gap-4 w-full my-2 scrollbar-hidden">
+              {item.images.map((img, i) => (
+                <img
+                  key={i}
+                  src={img.asset?.url}
+                  alt=""
+                  className="min-w-[100%] h-[220px] snap-center object-cover"
+                />
+              ))}
+            </div>
           )}
+
           <div className="flex justify-between text-lg font-bold uppercase leading-tight tracking-tight font-gracesmews">
             <p>{item.title}</p>
             <p>{item.location}</p>
@@ -219,8 +233,11 @@ export default function Exhibitions() {
   
                 {/* Description */}
                 {item.description && (
-                  <p className="text-md max-w-3xl tracking-tight">{item.description}</p>
+                  <div className="max-w-3xl text-black space-y-2 leading-relaxed">
+                    <PortableText value={item.description} />
+                  </div>
                 )}
+
 
                 {/* Press Release Download Link */}
                 {item.pressRelease?.asset?.url && (

@@ -27,10 +27,15 @@ body {
 /* Safari-only: fix bold appearance */
 @supports (-webkit-touch-callout: none) {
   .font-gracesmews {
-    font-weight: 400;
+    font-weight: 800;
   }
 }
 
+@supports (-webkit-touch-callout: none) {
+  .font-gracesmews.safari-bold {
+    -webkit-text-stroke: 0.3px currentColor;
+  }
+}
 
 /* Hide scrollbar for all browsers */
 .scrollbar-hidden {

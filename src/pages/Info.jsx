@@ -39,7 +39,7 @@ export default function Info() {
         </div>
 
         {/* Text + Addresses */}
-        <div className="flex flex-col space-y-6 w-full max-w-md pr-4 md:pr-6">
+        <div className="flex flex-col space-y-6 md:space-y-10 w-full max-w-md pr-4 md:pr-6">
           
           {/* Sanity Content */}
           <div className="text-md space-y-2 md:space-y-4">
@@ -76,13 +76,15 @@ export default function Info() {
                 ))}
               </div>
 
-              <div className="mt-2 text-md">
-                <a
-                  href={`mailto:${aboutData.email}`}
-                  className="block hover:underline"
-                >
-                  {aboutData.email}
-                </a>
+              <div className="mt-1 text-md">
+                {aboutData.email && (
+                  <a
+                    href={`mailto:${aboutData.email}`}
+                    className="block hover:underline"
+                  >
+                    {aboutData.email}
+                  </a>
+                )}
                 {aboutData.phone && (
                   <a
                     href={`tel:${aboutData.phone.replace(/\s+/g, '')}`}
@@ -91,7 +93,13 @@ export default function Info() {
                     {aboutData.phone}
                   </a>
                 )}
+                {aboutData.hours && (
+                  <p>
+                    {aboutData.hours}
+                  </p>
+                )}
               </div>
+             
             </div>
           </div>
         </div>

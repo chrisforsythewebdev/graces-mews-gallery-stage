@@ -110,6 +110,7 @@ export const getAbout = `*[_type == "about"][0]{
   shopLink,
   email,
   phone,
+  hours,
   addresses,
   image {
     asset-> {
