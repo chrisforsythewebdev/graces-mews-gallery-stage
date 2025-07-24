@@ -107,10 +107,10 @@ export default function Exhibitions() {
           onClick={() => setIsExpanded(prev => !prev)}
         >
           <div className="flex flex-col justify-between h-full">
-            <p className="font-gracesmews font-semibold">{formatDateRange(item.start, item.end)}</p>
+            <p className="font-gracesmews">{formatDateRange(item.start, item.end)}</p>
           </div>
 
-          <p className="font-semibold">
+          <p className="">
             <Link
               to={`/artist/${item.artist?.slug}`}
               onClick={(e) => e.stopPropagation()}
@@ -120,7 +120,7 @@ export default function Exhibitions() {
             </Link>
           </p>
 
-          <p className="font-semibold font-gracesmews uppercase">{item.title}</p>
+          <p className="font-gracesmews uppercase">{item.title}</p>
           <p className="mb-4 font-gracesmews">{item.location}</p>
 
           <div className="w-36 h-24 relative">
@@ -233,7 +233,7 @@ export default function Exhibitions() {
   
                 {/* Description */}
                 {item.description && (
-                  <div className="max-w-3xl text-black space-y-2 leading-relaxed">
+                  <div className="max-w-3xl text-sm text-black space-y-2 leading-relaxed">
                     <PortableText value={item.description} />
                   </div>
                 )}
@@ -245,7 +245,7 @@ export default function Exhibitions() {
                     target='_blank'
                     href={item.pressRelease.asset.url}
                     download
-                    className="inline-block mt-2 underline hover:text-[#AAAAAA] text-md"
+                    className="inline-block mt-2 underline hover:text-[#AAAAAA] text-sm"
                   >
                     Download Press Release 
                   </a>
