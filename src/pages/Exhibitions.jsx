@@ -75,57 +75,76 @@ export default function Exhibitions() {
         })} – ${endFormatted}`;
   };
   
+  function ExhibitionRow({ item, expandOnLoad = false, variant = 'default' }) {
+    // Past rows start collapsed regardless of expandOnLoad
+    const initialExpanded = variant === 'past' ? false : !!expandOnLoad;
+    const [isExpanded, setIsExpanded] = useState(initialExpanded);
   
-  function ExhibitionRow({ item, expandOnLoad = false }) {
-    const [isExpanded, setIsExpanded] = useState(expandOnLoad);
     const carouselRef = useRef(null);
     const headerRef = useRef(null);
   
     const start = new Date(item.start).toLocaleDateString('en-GB', {
-      day: 'numeric',
-      month: 'short',
-      year: 'numeric',
+      day: 'numeric', month: 'short', year: 'numeric',
     });
     const end = new Date(item.end).toLocaleDateString('en-GB', {
-      day: 'numeric',
-      month: 'short',
-      year: 'numeric',
+      day: 'numeric', month: 'short', year: 'numeric',
     });
   
-    useEffect(() => {
-      if (expandOnLoad && headerRef.current) {
-        // headerRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    }, [expandOnLoad]);
+    // Wrapper: only show bottom border for past when expanded
+    const rowWrapperClass =
+      variant === 'past'
+        ? `py-4 ${isExpanded ? 'border-b border-black' : ''}`
+        : 'py-4 border-b border-black';
+  
+    // Desktop header styles
+    const desktopHeaderBase =
+      'relative hidden md:grid grid-cols-[1fr_1fr_1fr_1fr_144px] gap-4 text-lg items-start cursor-pointer';
+  
+    // IMPORTANT: use hover on THIS element (not group-hover), and avoid child text colors
+    const desktopHeaderPast =
+      ' text-gray-400 opacity-70 transition-colors hover:text-black hover:opacity-100';
+  
+    const desktopHeaderClass =
+      variant === 'past'
+        ? `${desktopHeaderBase} ${desktopHeaderPast}`
+        : desktopHeaderBase;
+  
+    // Mobile header styles (no hover on mobile)
+    const mobileHeaderBase = 'md:hidden flex flex-col space-y-1';
+    const mobileHeaderPastCollapsed = ' text-gray-500 opacity-70';
+    const mobileHeaderPastExpanded = ' text-black opacity-100';
+    const mobileHeaderClass =
+      variant === 'past'
+        ? `${mobileHeaderBase} ${isExpanded ? mobileHeaderPastExpanded : mobileHeaderPastCollapsed}`
+        : mobileHeaderBase;
+  
+    const handleToggle = () => setIsExpanded(prev => !prev);
   
     return (
-      <div id={`exhibition-${item.slug}`} className="border-b border-black py-4">
-        {/* Desktop Header */}
-        <div
-          ref={headerRef}
-          className="relative hidden md:grid grid-cols-[1fr_1fr_1fr_1fr_144px] gap-4 text-lg items-start group cursor-pointer"
-          onClick={() => setIsExpanded(prev => !prev)}
-        >
+      <div id={`exhibition-${item.slug}`} className={rowWrapperClass}>
+        {/* DESKTOP HEADER */}
+        <div ref={headerRef} className={desktopHeaderClass} onClick={handleToggle}>
           <div className="flex flex-col justify-between h-full">
             <p className="font-gracesmews">{formatDateRange(item.start, item.end)}</p>
           </div>
-
-          <p className="">
+  
+          <p>
             <Link
               to={`/artist/${item.artist?.slug}`}
               onClick={(e) => e.stopPropagation()}
-              className={`${isExpanded ? 'underline' : ''} text-[#000] hover:text-[#AAAAAA] font-gracesmews`}
+              className={`${isExpanded ? 'underline' : ''} font-gracesmews`}
             >
               {item.artist?.name}
             </Link>
           </p>
-
+  
           <p className="font-gracesmews uppercase">{item.title}</p>
           <p className="mb-4 font-gracesmews">{item.location}</p>
-
+  
+          {/* Thumbnail (desktop) — OMIT for past */}
           <div className="w-36 h-24 relative">
             <AnimatePresence mode="wait">
-              {!isExpanded && item.images?.[0]?.asset?.url && (
+              {variant !== 'past' && !isExpanded && item.images?.[0]?.asset?.url && (
                 <motion.img
                   key="thumbnail"
                   src={item.images[0].asset.url}
@@ -139,28 +158,39 @@ export default function Exhibitions() {
               )}
             </AnimatePresence>
           </div>
-
-          {/* Arrow Button Floating at Bottom Center */}
+  
+          {/* Arrow */}
           <button
             onClick={(e) => {
               e.stopPropagation();
-              setIsExpanded(prev => !prev);
+              handleToggle();
             }}
-              className={`absolute -bottom-2 left-1/2 -translate-x-1/2 text-xl transition-all duration-700 hover:text-[#AAAAAA] hover:scale-150
-                ${isExpanded ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}
-              `}
+            className={`absolute -bottom-2 left-1/2 -translate-x-1/2 text-xl transition-all duration-700 hover:scale-150
+              ${
+                variant === 'past'
+                  ? // Past: hidden by default, only show on hover or when expanded
+                    isExpanded
+                      ? 'opacity-100'
+                      : 'opacity-0 hover:opacity-100'
+                  : // Default: keep your current behavior
+                    isExpanded
+                      ? 'opacity-100'
+                      : 'opacity-50 hover:opacity-100'
+              }`}
+            aria-label={isExpanded ? 'Collapse' : 'Expand'}
           >
             {isExpanded ? '↑' : '↓'}
           </button>
         </div>
   
-        {/* Mobile Header */}
-        <div className="md:hidden flex flex-col space-y-1" onClick={() => setIsExpanded(prev => !prev)}>
-          <p className="text-lg font-semibold leading-tight font-gracesmews">{start} – {end}</p>
-          {/* {item.images?.[0]?.asset?.url && (
-            <img src={item.images[0].asset.url} alt={item.title} className="w-full h-[220px] object-cover my-2" />
-          )} */}
-          {item.images?.length > 0 && (
+        {/* MOBILE HEADER (tap to expand/collapse) */}
+        <div className={mobileHeaderClass} onClick={handleToggle}>
+          <p className="text-lg font-semibold leading-tight font-gracesmews">
+            {start} – {end}
+          </p>
+  
+          {/* For past: no mobile preview carousel either */}
+          {variant !== 'past' && item.images?.length > 0 && (
             <div className="flex overflow-x-auto snap-x snap-mandatory scroll-smooth gap-4 w-full my-2 scrollbar-hidden">
               {item.images.map((img, i) => (
                 <img
@@ -172,7 +202,7 @@ export default function Exhibitions() {
               ))}
             </div>
           )}
-
+  
           <div className="flex justify-between text-lg font-bold uppercase leading-tight tracking-tight font-gracesmews">
             <p>{item.title}</p>
             <p>{item.location}</p>
@@ -180,15 +210,15 @@ export default function Exhibitions() {
           <p className="text-lg font-semibold leading-tight tracking-tight font-gracesmews">
             <Link
               to={`/artist/${item.artist?.slug}`}
-              className="hover:text-[#AAAAAA]"
               onClick={(e) => e.stopPropagation()}
+              className="font-gracesmews"
             >
               {item.artist?.name}
             </Link>
           </p>
         </div>
   
-        {/* Expandable Content */}
+        {/* EXPANDABLE CONTENT */}
         <AnimatePresence initial={false}>
           {isExpanded && (
             <motion.div
@@ -200,36 +230,38 @@ export default function Exhibitions() {
               className="overflow-hidden mt-4"
             >
               <div className="space-y-4">
-                {/* Carousel (desktop only) */}
-                <div className="hidden md:flex flex-col items-center w-full space-y-2">
-                  <div
-                    ref={carouselRef}
-                    className="flex overflow-x-auto snap-x snap-mandatory scroll-smooth gap-4 w-full scrollbar-hidden"
-                  >
-                    {item.images?.map((img, i) => (
-                      <img
-                        key={i}
-                        src={img.asset?.url}
-                        alt=""
-                        className="min-w-2/3 h-[300px] snap-center object-cover"
-                      />
-                    ))}
-                  </div>
-                  <div className="w-full mt-2 flex justify-start space-x-2">
-                    <button
-                      onClick={() => carouselRef.current?.scrollBy({ left: -600, behavior: 'smooth' })}
-                      className="text-xl hover:text-[#AAAAAA] hover:scale-125"
+                {/* Carousel (desktop only) — still shown when expanded for non-past; for past, you wanted images shown when expanded */}
+                {item.images?.length > 0 && (
+                  <div className="hidden md:flex flex-col items-center w-full space-y-2">
+                    <div
+                      ref={carouselRef}
+                      className="flex overflow-x-auto snap-x snap-mandatory scroll-smooth gap-4 w-full scrollbar-hidden"
                     >
-                      ←
-                    </button>
-                    <button
-                      onClick={() => carouselRef.current?.scrollBy({ left: 600, behavior: 'smooth' })}
-                      className="text-xl hover:text-[#AAAAAA] hover:scale-125"
-                    >
-                      →
-                    </button>
+                      {item.images.map((img, i) => (
+                        <img
+                          key={i}
+                          src={img.asset?.url}
+                          alt=""
+                          className="min-w-2/3 h-[300px] snap-center object-cover"
+                        />
+                      ))}
+                    </div>
+                    <div className="w-full mt-2 flex justify-start space-x-2">
+                      <button
+                        onClick={() => carouselRef.current?.scrollBy({ left: -600, behavior: 'smooth' })}
+                        className="text-xl hover:scale-125"
+                      >
+                        ←
+                      </button>
+                      <button
+                        onClick={() => carouselRef.current?.scrollBy({ left: 600, behavior: 'smooth' })}
+                        className="text-xl hover:scale-125"
+                      >
+                        →
+                      </button>
+                    </div>
                   </div>
-                </div>
+                )}
   
                 {/* Description */}
                 {item.description && (
@@ -237,20 +269,18 @@ export default function Exhibitions() {
                     <PortableText value={item.description} />
                   </div>
                 )}
-
-
-                {/* Press Release Download Link */}
+  
+                {/* Press Release */}
                 {item.pressRelease?.asset?.url && (
                   <a
-                    target='_blank'
+                    target="_blank"
                     href={item.pressRelease.asset.url}
                     download
-                    className="inline-block mt-2 underline hover:text-[#AAAAAA] text-sm"
+                    className="inline-block mt-2 underline text-sm"
                   >
-                    Download Press Release 
+                    Download Press Release
                   </a>
                 )}
-  
               </div>
             </motion.div>
           )}
@@ -258,7 +288,7 @@ export default function Exhibitions() {
       </div>
     );
   }
-  
+    
   return (
     <Layout>
       <div className="min-h-screen w-full p-4 md:p-8 flex flex-col items-center">
@@ -273,40 +303,20 @@ export default function Exhibitions() {
               </h2>
               <div className={`border-b border-black ${section === 'past' ? 'opacity-50 mb-2' : ''}`} />
   
-              {section === 'past' ? (
-                exhibitions.past.map((item, i) => (
-                  <div key={item._id} id={`exhibition-past-${i}`} className="py-1">
-  
-                    {/* Desktop Layout */}
-                    <div className="hidden md:grid grid-cols-[1fr_1fr_1fr_1fr_144px] gap-4 text-lg items-start opacity-30">
-                      <p className="font-gracesmews text-lg font-semibold">{formatDateRange(item.start, item.end)}</p>
-                      <p className="font-semibold text-lg font-gracesmews">{item.artist?.name}</p>
-                      <p className="font-semibold text-lg font-gracesmews uppercase">{item.title}</p>
-                    </div>
-  
-                    {/* Mobile Layout */}
-                    <div className="md:hidden flex flex-col space-y-1 opacity-30">
-                      <p className="text-lg font-gracesmews font-semibold leading-tight">{formatDateRange(item.start, item.end)}</p>
-                      <p className="text-lg font-gracesmews font-semibold leading-tight">{item.artist?.name}</p>
-                      <div className="flex font-gracesmews justify-between text-lg font-bold uppercase leading-tight">
-                        <p>{item.title}</p>
-                      </div>
-                    </div>
-  
-                  </div>
-                ))
-              ) : (
-                exhibitions[section].map((item, i) => {
-                  const expandOnLoad = location.search.includes(item.slug); // basic slug check
-                  return (
-                    <ExhibitionRow
-                      key={item._id}
-                      item={item}
-                      expandOnLoad={expandOnLoad}
-                    />
-                  );
-                })
-              )}
+              {exhibitions[section].map((item) => {
+              const expandOnLoad =
+                section !== 'past' && location.search.includes(item.slug);
+              // keep for current/upcoming; harmless for past
+              return (
+                <ExhibitionRow
+                  key={item._id}
+                  item={item}
+                  expandOnLoad={expandOnLoad}
+                  variant={section === 'past' ? 'past' : 'default'}
+                />
+              );
+            })}
+
             </section>
           )
         ))}
