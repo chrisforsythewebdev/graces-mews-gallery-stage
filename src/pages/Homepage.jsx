@@ -96,7 +96,7 @@ export default function Homepage() {
           {currentSlide.title}
         </button>
 
-        <div className="hidden md:flex justify-center pb-8">
+        <div className="hidden md:flex justify-center pb-4">
           <Nav color={themeColor} />
         </div>
       </div>
@@ -122,7 +122,7 @@ export default function Homepage() {
       >
         &rarr;
       </button>
-      <div className="md:hidden fixed bottom-0 left-0 w-full flex justify-center z-50 py-4">
+      <div className="md:hidden fixed bottom-0 left-0 w-full flex justify-center z-50 pt-4 pb-8">
         <Nav color={themeColor} />
       </div>
     </div>

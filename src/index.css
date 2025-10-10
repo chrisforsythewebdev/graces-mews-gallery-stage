@@ -20,6 +20,22 @@ body {
   @apply tracking-tight;
 }
 
+
+/* Force the SVG to follow the element's `color` */
+svg.logo-dynamic * {
+  fill: currentColor !important;
+  stroke: currentColor !important;
+}
+
+/* Catch inline style="fill: ..." / style="stroke: ..." cases */
+svg.logo-dynamic [style*="fill:"] { fill: currentColor !important; }
+svg.logo-dynamic [style*="stroke:"] { stroke: currentColor !important; }
+
+/* Preserve deliberate 'none' values */
+svg.logo-dynamic [fill="none"]  { fill: none !important; }
+svg.logo-dynamic [stroke="none"] { stroke: none !important; }
+
+
 .font-gracesmews {
   font-family: 'GRACESMEWS', sans-serif;
 }

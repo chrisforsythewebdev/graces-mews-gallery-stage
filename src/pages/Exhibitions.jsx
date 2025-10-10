@@ -10,7 +10,7 @@ export default function Exhibitions() {
   const location = useLocation();
   const [exhibitions, setExhibitions] = useState({ current: [], upcoming: [], past: [] });
   const [expandedIndex, setExpandedIndex] = useState(null);
-
+  
   useEffect(() => {
     const fetchData = async () => {
       const data = await client.fetch(getExhibitions);
@@ -52,20 +52,19 @@ export default function Exhibitions() {
   const formatDateRange = (start, end) => {
     const startDate = new Date(start);
     const endDate = new Date(end);
-  
     const sameYear = startDate.getFullYear() === endDate.getFullYear();
-  
+
     const startFormatted = startDate.toLocaleDateString('en-GB', {
       day: 'numeric',
       month: 'short',
     });
-  
+
     const endFormatted = endDate.toLocaleDateString('en-GB', {
       day: 'numeric',
       month: 'short',
       year: 'numeric',
     });
-  
+
     return sameYear
       ? `${startFormatted} – ${endFormatted}`
       : `${startDate.toLocaleDateString('en-GB', {
@@ -80,6 +79,10 @@ export default function Exhibitions() {
     const initialExpanded = variant === 'past' ? false : !!expandOnLoad;
     const [isExpanded, setIsExpanded] = useState(initialExpanded);
   
+    const imageCount = item.images?.length || 0;
+    const hasImages = imageCount > 0;
+    const hasMultipleImages = imageCount > 1;
+
     const carouselRef = useRef(null);
     const headerRef = useRef(null);
   
@@ -183,26 +186,12 @@ export default function Exhibitions() {
           </button>
         </div>
   
-        {/* MOBILE HEADER (tap to expand/collapse) */}
+        {/* MOBILE HEADER (tap to expand/collapse) — no images in collapsed header */}
         <div className={mobileHeaderClass} onClick={handleToggle}>
           <p className="text-lg font-semibold leading-tight font-gracesmews">
             {start} – {end}
           </p>
-  
-          {/* For past: no mobile preview carousel either */}
-          {variant !== 'past' && item.images?.length > 0 && (
-            <div className="flex overflow-x-auto snap-x snap-mandatory scroll-smooth gap-4 w-full my-2 scrollbar-hidden">
-              {item.images.map((img, i) => (
-                <img
-                  key={i}
-                  src={img.asset?.url}
-                  alt=""
-                  className="min-w-[100%] h-[220px] snap-center object-cover"
-                />
-              ))}
-            </div>
-          )}
-  
+
           <div className="flex justify-between text-lg font-bold uppercase leading-tight tracking-tight font-gracesmews">
             <p>{item.title}</p>
             <p>{item.location}</p>
@@ -230,8 +219,23 @@ export default function Exhibitions() {
               className="overflow-hidden mt-4"
             >
               <div className="space-y-4">
-                {/* Carousel (desktop only) — still shown when expanded for non-past; for past, you wanted images shown when expanded */}
-                {item.images?.length > 0 && (
+                {/* Mobile: swipeable images only when expanded (full-color, no arrows) */}
+                {hasImages && (
+                  <div className="md:hidden flex overflow-x-auto snap-x snap-mandatory scroll-smooth gap-4 w-full my-2">
+                    {item.images.map((img, i) => (
+                      <img
+                        key={i}
+                        src={img.asset?.url}
+                        alt={item.title || ''}
+                        loading="lazy"
+                        className="min-w-[85%] h-[220px] snap-center object-cover"
+                      />
+                    ))}
+                  </div>
+                )}
+
+                {/* Desktop carousel (shown when expanded; arrows only if 2+ images) */}
+                {hasImages && (
                   <div className="hidden md:flex flex-col items-center w-full space-y-2">
                     <div
                       ref={carouselRef}
@@ -246,23 +250,27 @@ export default function Exhibitions() {
                         />
                       ))}
                     </div>
-                    <div className="w-full mt-2 flex justify-start space-x-2">
-                      <button
-                        onClick={() => carouselRef.current?.scrollBy({ left: -600, behavior: 'smooth' })}
-                        className="text-xl hover:scale-125"
-                      >
-                        ←
-                      </button>
-                      <button
-                        onClick={() => carouselRef.current?.scrollBy({ left: 600, behavior: 'smooth' })}
-                        className="text-xl hover:scale-125"
-                      >
-                        →
-                      </button>
-                    </div>
+
+                    {/* Show arrow buttons only when there are 2+ images */}
+                    {hasMultipleImages && (
+                      <div className="w-full mt-2 flex justify-start space-x-2">
+                        <button
+                          onClick={() => carouselRef.current?.scrollBy({ left: -600, behavior: 'smooth' })}
+                          className="text-xl hover:scale-125"
+                        >
+                          ←
+                        </button>
+                        <button
+                          onClick={() => carouselRef.current?.scrollBy({ left: 600, behavior: 'smooth' })}
+                          className="text-xl hover:scale-125"
+                        >
+                          →
+                        </button>
+                      </div>
+                    )}
                   </div>
                 )}
-  
+
                 {/* Description */}
                 {item.description && (
                   <div className="max-w-3xl text-sm text-black space-y-2 leading-relaxed">
@@ -304,18 +312,18 @@ export default function Exhibitions() {
               <div className={`border-b border-black ${section === 'past' ? 'opacity-50 mb-2' : ''}`} />
   
               {exhibitions[section].map((item) => {
-              const expandOnLoad =
-                section !== 'past' && location.search.includes(item.slug);
-              // keep for current/upcoming; harmless for past
-              return (
-                <ExhibitionRow
-                  key={item._id}
-                  item={item}
-                  expandOnLoad={expandOnLoad}
-                  variant={section === 'past' ? 'past' : 'default'}
-                />
-              );
-            })}
+                const expandOnLoad =
+                  section !== 'past' && location.search.includes(item.slug);
+                // keep for current/upcoming; harmless for past
+                return (
+                  <ExhibitionRow
+                    key={item._id}
+                    item={item}
+                    expandOnLoad={expandOnLoad}
+                    variant={section === 'past' ? 'past' : 'default'}
+                  />
+                );
+              })}
 
             </section>
           )

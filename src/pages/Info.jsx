@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import Layout from '../components/Layout';
-import shopImage from '../assets/images/shop.jpeg';
 import { client } from '../lib/client';
 import { getAbout } from '../lib/queries';
 import { PortableText } from '@portabletext/react';
@@ -22,7 +21,7 @@ export default function Info() {
 
   const aboutImage = aboutData.image
     ? urlFor(aboutData.image).width(1000).url()
-    : shopImage;
+    : null;
 
   return (
     <Layout>
