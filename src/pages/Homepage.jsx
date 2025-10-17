@@ -14,16 +14,21 @@ export default function Homepage() {
   // Fetch homepage data from Sanity
   useEffect(() => {
     client.fetch(getHomepage).then((data) => {
-      setSlides(data?.slides || []);
+      const s = data?.slides || [];
+      setSlides(s);
+      // Safety: if the new slides array is shorter than currentIndex
+      if (currentIndex >= s.length) setCurrentIndex(0);
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Clamp (no wrap)
   const handlePrev = () => {
-    setCurrentIndex((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
+    setCurrentIndex((prev) => Math.max(0, prev - 1));
   };
 
   const handleNext = () => {
-    setCurrentIndex((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
+    setCurrentIndex((prev) => Math.min(slides.length - 1, prev + 1));
   };
 
   const handleTitleClick = () => {
@@ -36,13 +41,13 @@ export default function Homepage() {
   }
 
   const currentSlide = slides[currentIndex];
-  const themeColor = currentSlide.themeColor || '#000';
+  const themeColor = currentSlide?.themeColor || '#000';
 
   // Only apply preview offset if not on first/last
   const maxIndex = slides.length - 1;
   const offset =
-    (hovered === 'next' && currentIndex < maxIndex) ? -5 :
-    (hovered === 'prev' && currentIndex > 0) ? 5 :
+    hovered === 'next' && currentIndex < maxIndex ? -5 :
+    hovered === 'prev' && currentIndex > 0 ? 5 :
     0;
 
   return (
@@ -58,10 +63,12 @@ export default function Homepage() {
           {slides.map((slide, idx) => (
             <div key={idx} className="w-screen h-screen flex-shrink-0">
               <img
-                src={slide.image.asset.url}
-                alt={slide.title}
+                src={slide?.image?.asset?.url}
+                alt={slide?.title || `Slide ${idx + 1}`}
                 className="w-full h-full object-cover"
                 style={{ objectPosition: 'center' }}
+                loading={idx === currentIndex ? 'eager' : 'lazy'}
+                fetchpriority={idx === currentIndex ? 'high' : 'auto'}
               />
             </div>
           ))}
@@ -72,7 +79,6 @@ export default function Homepage() {
       <div className="absolute inset-0 flex flex-col justify-between z-10">
         <div className="flex flex-col items-center pt-8">
           <Header color={themeColor} />
-
         </div>
 
         {/* Center CTA and Title */}
@@ -92,8 +98,8 @@ export default function Homepage() {
             textTransform: 'capitalize',
           }}
         >
-          {currentSlide.ctaLabel}<br />
-          {currentSlide.title}
+          {currentSlide?.ctaLabel}<br />
+          {currentSlide?.title}
         </button>
 
         <div className="hidden md:flex justify-center pb-4">
@@ -101,27 +107,34 @@ export default function Homepage() {
         </div>
       </div>
 
-      {/* Navigation Arrows */}
-      <button
-        onClick={handlePrev}
-        onMouseEnter={() => setHovered('prev')}
-        onMouseLeave={() => setHovered(null)}
-        className="absolute left-4 top-1/2 -translate-y-1/2 text-3xl z-20"
-        style={{ color: themeColor }}
-        aria-label="Previous"
-      >
-        &larr;
-      </button>
-      <button
-        onClick={handleNext}
-        onMouseEnter={() => setHovered('next')}
-        onMouseLeave={() => setHovered(null)}
-        className="absolute right-4 top-1/2 -translate-y-1/2 text-3xl z-20"
-        style={{ color: themeColor }}
-        aria-label="Next"
-      >
-        &rarr;
-      </button>
+      {/* Navigation Arrows (only when movement is possible) */}
+      {currentIndex > 0 && (
+        <button
+          onClick={handlePrev}
+          onMouseEnter={() => setHovered('prev')}
+          onMouseLeave={() => setHovered(null)}
+          className="absolute left-4 top-1/2 -translate-y-1/2 text-3xl z-20"
+          style={{ color: themeColor }}
+          aria-label="Previous"
+        >
+          &larr;
+        </button>
+      )}
+
+      {currentIndex < slides.length - 1 && (
+        <button
+          onClick={handleNext}
+          onMouseEnter={() => setHovered('next')}
+          onMouseLeave={() => setHovered(null)}
+          className="absolute right-4 top-1/2 -translate-y-1/2 text-3xl z-20"
+          style={{ color: themeColor }}
+          aria-label="Next"
+        >
+          &rarr;
+        </button>
+      )}
+
+      {/* Mobile bottom nav */}
       <div className="md:hidden fixed bottom-0 left-0 w-full flex justify-center z-50 pt-4 pb-8">
         <Nav color={themeColor} />
       </div>
