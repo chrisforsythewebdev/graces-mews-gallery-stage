@@ -5,7 +5,7 @@ export default function Header({ color = '#000000' }) {
   return (
     <NavLink to="/" className="inline-flex items-center justify-center">
       <Logo
-        className="h-10 md:h-14 w-auto logo-dynamic"
+        className="h-8 md:h-14 w-auto logo-dynamic"
         style={{ color }}               
         aria-label="Graces Mews logo"
       />
