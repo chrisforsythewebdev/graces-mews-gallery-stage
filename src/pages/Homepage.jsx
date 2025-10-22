@@ -217,7 +217,7 @@ export default function Homepage() {
   return (
     <>
       <SEO
-        title="Grace’s Mews Gallery"
+        title="Graces Mews"
         description="Graces Mews is a gallery in Camberwell, South London. The programme is photography-led and includes selling and non-commercial shows."
         canonical={`${BASE_URL}/`}
         image={homeOg}
