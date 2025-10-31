@@ -23,10 +23,39 @@ export default {
       of: [
         {
           type: 'block',
-          styles: [{ title: 'Normal', value: 'normal' }, { title: 'Italic', value: 'em' }],
+          styles: [
+            { title: 'Normal', value: 'normal' },
+            { title: 'Italic', value: 'em' },
+          ],
           marks: {
-            decorators: [{ title: 'Italic', value: 'em' }, { title: 'Strong', value: 'strong' }],
-            annotations: [],
+            decorators: [
+              { title: 'Italic', value: 'em' },
+              { title: 'Strong', value: 'strong' },
+            ],
+            annotations: [
+              {
+                name: 'link',
+                title: 'Link',
+                type: 'object',
+                fields: [
+                  {
+                    name: 'href',
+                    title: 'URL',
+                    type: 'url',
+                    validation: (Rule) =>
+                      Rule.uri({
+                        scheme: ['http', 'https', 'mailto', 'tel'],
+                      }),
+                  },
+                  {
+                    name: 'openInNewTab',
+                    title: 'Open in new tab?',
+                    type: 'boolean',
+                    initialValue: true,
+                  },
+                ],
+              },
+            ],
           },
         },
       ],

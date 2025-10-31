@@ -37,15 +37,30 @@ export default function News() {
   return (
     <Layout>
       <div className="relative w-full text-xl md:text-2xl max-w-6xl mx-auto mt-2 px-4 md:px-8 font-gracesmews">
-        {isDesktop && hoveredItem && (
-          <div className="fixed inset-0 flex items-center justify-end pr-[280px] z-10 pointer-events-none">
+      {isDesktop && hoveredItem && (
+        <div className="fixed inset-0 flex items-center justify-end pr-[280px] z-10 pointer-events-none">
+          <div
+            className="
+              w-[520px]
+              h-[360px]
+              flex
+              items-center
+              justify-center
+            "
+          >
             <img
               src={hoveredItem.thumbnail}
               alt={hoveredItem.title}
-              className="w-[520px] h-[300px] object-cover shadow-xl transition-opacity duration-300 ease-in-out"
+              className="
+                max-w-full
+                max-h-full
+                object-contain
+              "
             />
           </div>
-        )}
+        </div>
+      )}
+
 
         <div className="relative z-10">
           {Object.keys(grouped)

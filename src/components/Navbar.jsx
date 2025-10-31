@@ -2,7 +2,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 
 const LINKS = [
   { to: '/exhibitions', label: 'EXHIBITIONS', external: false, hideOnHome: false },
-  // { to: '/news',        label: 'NEWS',        external: false, hideOnHome: false },
+  { to: '/news',        label: 'NEWS',        external: false, hideOnHome: false },
   { to: '/about',       label: 'ABOUT',       external: false, hideOnHome: false },
 ];
 
