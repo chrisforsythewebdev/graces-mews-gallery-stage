@@ -26,7 +26,7 @@ export default function NewsDetail() {
 
   return (
     <Layout>
-      <div className="w-full max-w-6xl mx-auto px-4 md:px-8 mt-8 pb-[90px]">
+      <div className="w-full max-w-6xl mx-auto px-4 md:px-8 mt-2 pb-[20px]">
         {/* Main Image */}
         <img
           src={item.thumbnail}
