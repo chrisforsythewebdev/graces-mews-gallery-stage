@@ -84,7 +84,7 @@ export default function NewsDetail() {
               />
             </div>
 
-            {/* Keep top description under the image on desktop */}
+            {/* Keep top description under the image on desktop  */}
             {item.descriptionTop && (
               <div className="mt-8 text-sm md:text-base">
                 <PortableText value={item.descriptionTop} />
