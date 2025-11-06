@@ -21,20 +21,21 @@ export default function NewsDetail() {
 
   if (!item) return <p>Loading...</p>;
 
-  // how many gallery images do we have?
   const galleryCount = item.gallery?.length || 0;
 
   return (
     <Layout>
-      <div className="w-full max-w-6xl mx-auto px-4 md:px-8 mt-2 pb-[20px]">
-        {/* Main Image */}
-        <img
-          src={item.thumbnail}
-          alt={item.title}
-          className="w-full h-auto max-h-[500px] object-cover mb-2 md:mb-6"
-        />
+      <div className="w-full max-w-6xl mx-auto px-4 md:px-8 mt-2 pt-[20px] pb-[20px]">
+        {/* ===== Mobile Hero ===== */}
+        <div className="md:hidden">
+          <img
+            src={item.thumbnail}
+            alt={item.title}
+            className="w-full h-auto max-h-[500px] object-cover mb-2 md:mb-6"
+          />
+        </div>
 
-        {/* Mobile Title and Top Description */}
+        {/* ===== Mobile Title + Top Description (unchanged) ===== */}
         <div className="md:hidden mb-4 w-full">
           <div className="w-3/4">
             <h2 className="font-bold font-gracesmews text-lg uppercase">{item.title}</h2>
@@ -55,9 +56,10 @@ export default function NewsDetail() {
           )}
         </div>
 
-        {/* Desktop Title and Top Description */}
-        <div className="hidden md:grid grid-cols-12 gap-8 mb-8">
-          <div className="col-span-4">
+        {/* ===== Desktop: smaller hero image; left text ~1/3 down ===== */}
+        <div className="hidden md:grid grid-cols-12 gap-8 mb-8 items-start">
+          {/* Left text (offset down by ~1/3 viewport height) */}
+          <div className="col-span-4 mt-[32vh]">
             <h2 className="font-bold text-lg uppercase mb-2">{item.title}</h2>
             <p className="text-sm font-gracesmews text-gray-500">
               {item.fullDate
@@ -69,13 +71,29 @@ export default function NewsDetail() {
                 : ''}
             </p>
           </div>
+
           <div className="col-span-1" />
-          <div className="col-span-7 text-sm md:text-base w-full pr-14">
-            {item.descriptionTop && <PortableText value={item.descriptionTop} />}
+
+          {/* Right: hero image aligned to the RIGHT of the 7-col area */}
+          <div className="col-span-7 pr-14">
+            <div className="flex justify-end">
+              <img
+                src={item.thumbnail}
+                alt={item.title}
+                className="w-auto max-w-full h-auto object-contain"
+              />
+            </div>
+
+            {/* Keep top description under the image on desktop */}
+            {item.descriptionTop && (
+              <div className="mt-8 text-sm md:text-base">
+                <PortableText value={item.descriptionTop} />
+              </div>
+            )}
           </div>
         </div>
 
-        {/* Carousel / Gallery */}
+        {/* ===== Carousel / Gallery ===== */}
         <div className="relative pb-8">
           {galleryCount === 1 ? (
             <>
@@ -90,14 +108,13 @@ export default function NewsDetail() {
 
               {/* Desktop: single image full width of the text column */}
               <div className="hidden md:grid grid-cols-12 gap-8">
-                {/* match layout of text above */}
                 <div className="col-span-4" />
                 <div className="col-span-1" />
                 <div className="col-span-7 pr-14">
                   <img
                     src={item.gallery[0]}
                     alt={item.title}
-                    className="w-full h-[320px] object-cover shadow-[0_20px_40px_rgba(0,0,0,0.15)]"
+                    className="w-full h-[320px] object-cover"
                   />
                 </div>
               </div>
@@ -114,7 +131,7 @@ export default function NewsDetail() {
                     key={i}
                     src={img}
                     alt={`Gallery ${i}`}
-                    className="w-full md:min-w-[41.5%] md:max-w-[40%] h-[200px] md:h-[260px] object-cover snap-center shadow-[0_20px_40px_rgba(0,0,0,0.15)]"
+                    className="w-full md:min-w-[41.5%] md:max-w-[40%] h-[200px] md:h-[260px] object-cover snap-center"
                   />
                 ))}
               </div>
@@ -150,18 +167,13 @@ export default function NewsDetail() {
           )}
         </div>
 
-        {/* Desktop Bottom Description, Video, Credit, Buy */}
-        {(item.descriptionBottom ||
-          item.video ||
-          item.videoDescription ||
-          item.buyText) && (
+        {/* ===== Desktop Bottom Description, Video, Credit, Buy ===== */}
+        {(item.descriptionBottom || item.video || item.videoDescription || item.buyText) && (
           <div className="hidden md:grid grid-cols-12 gap-8 mt-4">
             <div className="col-span-4" />
             <div className="col-span-1" />
             <div className="col-span-7 text-sm md:text-base w-full pr-14">
-              {item.descriptionBottom && (
-                <PortableText value={item.descriptionBottom} />
-              )}
+              {item.descriptionBottom && <PortableText value={item.descriptionBottom} />}
 
               {item.video && (
                 <div className="aspect-video my-4">
@@ -175,9 +187,7 @@ export default function NewsDetail() {
               )}
 
               {item.videoDescription && (
-                <p className="text-sm opacity-60 font-gracesmews">
-                  {item.videoDescription}
-                </p>
+                <p className="text-sm opacity-60 font-gracesmews">{item.videoDescription}</p>
               )}
 
               {item.buyText && (
@@ -200,26 +210,17 @@ export default function NewsDetail() {
           </div>
         )}
 
-        {/* Mobile Bottom Description, Video, Credit, Buy */}
+        {/* ===== Mobile Bottom Description, Video, Credit, Buy (unchanged) ===== */}
         <div className="md:hidden space-y-4 mt-6">
-          {item.descriptionBottom && (
-            <PortableText value={item.descriptionBottom} />
-          )}
+          {item.descriptionBottom && <PortableText value={item.descriptionBottom} />}
 
           {item.video && (
             <div className="aspect-video">
-              <iframe
-                src={item.video}
-                title="Video"
-                allowFullScreen
-                className="w-full h-full"
-              />
+              <iframe src={item.video} title="Video" allowFullScreen className="w-full h-full" />
             </div>
           )}
 
-          {item.videoDescription && (
-            <p className="text-md opacity-60">{item.videoDescription}</p>
-          )}
+          {item.videoDescription && <p className="text-md opacity-60">{item.videoDescription}</p>}
 
           {item.buyText && (
             <p className="text-lg mt-4">
